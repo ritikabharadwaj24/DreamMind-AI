@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DreamMind AI</title>
+
+    <!-- Fonts -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+</div>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+
+            <h1>DreamMind AI ✨</h1>
+
+            <p>Your Student Companion</p>
+
+        </div>
+
+        <button class="menu-btn" onclick="showSection('chat')">
+            💬 AI Chat
+        </button>
+
+        <button class="menu-btn" onclick="showSection('planner')">
+            🎯 Study Planner
+        </button>
+
+        <button class="menu-btn" onclick="showSection('quiz')">
+            📝 Quiz Generator
+        </button>
+
+        <button class="menu-btn" onclick="showSection('motivation')">
+            💖 Motivation AI
+        </button>
+
+        <button class="menu-btn" onclick="showSection('timer')">
+            ⏳ Pomodoro Timer
+        </button>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- CHAT -->
+
+        <div class="section active" id="chat">
+
+            <div class="welcome-card">
+
+                <h1>Welcome Back 💖</h1>
+
+                <p>
+                    Chat, study, stay motivated, and focus better with DreamMind AI.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h2>AI Chat</h2>
+
+                <form method="POST">
+
+                    <input
+                        type="text"
+                        name="message"
+                        placeholder="Type something..."
+                        required
+                    >
+
+                    <input type="hidden" name="action" value="chat">
+
+                    <button type="submit">
+                        Send
+                    </button>
+
+                </form>
+
+                {% if response %}
+
+                <div class="response-box">
+                    {{ response }}
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- PLANNER -->
+
+        <div class="section" id="planner">
+
+            <div class="welcome-card">
+
+                <h1>Study Smarter 📚</h1>
+
+                <p>
+                    Plan your goals beautifully with DreamMind AI.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Study Planner</h2>
+
+                <form method="POST">
+
+                    <label>Select Exam Date 📅</label>
+
+                    <input
+                        type="date"
+                        name="exam_date"
+                        required
+                    >
+
+                    <textarea
+                        name="planner_input"
+                        rows="5"
+                        placeholder="Example: I have Python and DBMS exams"
+                        required
+                    ></textarea>
+
+                    <input type="hidden" name="action" value="planner">
+
+                    <button type="submit">
+                        Generate Plan ✨
+                    </button>
+
+                </form>
+
+                {% if planner_response %}
+
+                <div class="response-box">
+                    {{ planner_response }}
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- QUIZ -->
+
+        <div class="section" id="quiz">
+
+            <div class="welcome-card">
+
+                <h1>Practice Time ✨</h1>
+
+                <p>
+                    Generate quizzes instantly and revise smarter.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Quiz Generator</h2>
+
+                <form method="POST">
+
+                    <input
+                        type="text"
+                        name="quiz_topic"
+                        placeholder="Enter topic..."
+                        required
+                    >
+
+                    <input type="hidden" name="action" value="quiz">
+
+                    <button type="submit">
+                        Generate Quiz 📝
+                    </button>
+
+                </form>
+
+                {% if quiz_response %}
+
+                <div class="response-box">
+                    {{ quiz_response }}
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- MOTIVATION -->
+
+        <div class="section" id="motivation">
+
+            <div class="welcome-card">
+
+                <h1>You’re Doing Great 💖🌸✨</h1>
+
+                <p>
+                    Get motivation, comfort, and encouragement.
+                </p>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Motivation AI</h2>
+
+                <form method="POST">
+
+                    <input
+                        type="text"
+                        name="mood"
+                        placeholder="Sad 😔 Happy 😊 Stressed 😭 Tired 😴"
+                        required
+                    >
+
+                    <input type="hidden" name="action" value="motivate">
+
+                    <button type="submit">
+                        Motivate Me ✨
+                    </button>
+
+                </form>
+
+                {% if motivation_response %}
+
+                <div class="response-box">
+                    {{ motivation_response }}
+                </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        <!-- TIMER -->
+
+        <div class="section" id="timer">
+
+            <div class="welcome-card">
+
+                <h1>Focus Mode ⏳</h1>
+
+                <p>
+                    Stay productive using the Pomodoro technique.
+                </p>
+
+            </div>
+
+            <div class="card timer-box">
+
+                <h2>Pomodoro Timer</h2>
+
+                <div class="timer-display" id="timerDisplay">
+                    25:00
+                </div>
+
+                <div class="timer-buttons">
+
+                    <button onclick="startTimer()">
+                        Start
+                    </button>
+
+                    <button onclick="pauseTimer()">
+                        Pause
+                    </button>
+
+                    <button onclick="resetTimer()">
+                        Reset
+                    </button>
+
+                </div>
+
+                <div class="cute-tag">
+                    Stay focused little star ✨
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- WATERMARK -->
+
+    <div class="watermark">
+        Made by Ritika ✨
+    </div>
+
+    <!-- JS -->
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+
+</html>
