@@ -1,0 +1,98 @@
+function showSection(sectionId){
+
+    let sections = document.querySelectorAll(".section");
+
+    sections.forEach(section => {
+        section.classList.remove("active");
+    });
+
+    document.getElementById(sectionId).classList.add("active");
+
+    localStorage.setItem("activeSection", sectionId);
+}
+
+
+
+window.onload = function(){
+
+    let savedSection = localStorage.getItem("activeSection");
+
+    if(savedSection){
+
+        showSection(savedSection);
+    }
+
+    
+
+    if(localStorage.getItem("dreammindOpened")){
+
+        document.getElementById("mainWelcome").style.display = "none";
+
+    }else{
+
+        localStorage.setItem("dreammindOpened","true");
+
+        setTimeout(() => {
+
+            document.getElementById("mainWelcome").style.opacity = "0";
+
+            setTimeout(() => {
+
+                document.getElementById("mainWelcome").style.display = "none";
+
+            },1000);
+
+        },3000);
+    }
+}
+
+
+
+let time = 1500;
+let timerInterval;
+
+function updateDisplay(){
+
+    let minutes = Math.floor(time / 60);
+    let seconds = time % 60;
+
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    document.getElementById("timerDisplay").innerHTML =
+        minutes + ":" + seconds;
+}
+
+function startTimer(){
+
+    clearInterval(timerInterval);
+
+    timerInterval = setInterval(function(){
+
+        if(time > 0){
+
+            time--;
+            updateDisplay();
+
+        }else{
+
+            clearInterval(timerInterval);
+
+            alert("Break Time 💖");
+        }
+
+    },1000);
+}
+
+function pauseTimer(){
+
+    clearInterval(timerInterval);
+}
+
+function resetTimer(){
+
+    clearInterval(timerInterval);
+
+    time = 1500;
+
+    updateDisplay();
+}
